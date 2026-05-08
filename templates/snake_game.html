@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>GAME</title>
+
+<style>
+
+body{
+
+    margin:0;
+    overflow:hidden;
+
+    font-family:Arial;
+
+    background-image:url('/static/bg.png');
+
+    background-size:cover;
+    background-position:center;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    height:100vh;
+}
+
+.game-container{
+
+    width:430px;
+    height:850px;
+
+    background:rgba(255,255,255,0.12);
+
+    border-radius:30px;
+
+    backdrop-filter:blur(5px);
+
+    text-align:center;
+
+    position:relative;
+
+    box-shadow:0 0 20px rgba(0,0,0,0.2);
+}
+
+h1{
+
+    color:white;
+
+    margin-top:20px;
+
+    font-size:38px;
+
+    text-shadow:2px 2px 10px black;
+}
+
+.info{
+
+    display:flex;
+    justify-content:space-around;
+
+    color:white;
+
+    font-size:25px;
+    font-weight:bold;
+
+    margin-top:10px;
+}
+
+canvas{
+
+    margin-top:20px;
+
+    background:rgba(255,255,255,0.15);
+
+    border:5px solid #d8f3dc;
+
+    border-radius:20px;
+}
+
+.controls{
+
+    position:absolute;
+
+    bottom:40px;
+
+    width:100%;
+}
+
+button{
+
+    width:80px;
+    height:80px;
+
+    border:none;
+
+    border-radius:20px;
+
+    font-size:35px;
+
+    margin:5px;
+
+    background:rgba(255,255,255,0.2);
+
+    color:white;
+
+    backdrop-filter:blur(5px);
+
+    cursor:pointer;
+}
+
+#muteBtn{
+
+    width:70px;
+    height:50px;
+
+    font-size:25px;
+
+    margin-left:10px;
+}
+
+.question-box{
+
+    position:absolute;
+
+    top:250px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:320px;
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:20px;
+
+    display:none;
+
+    z-index:10;
+}
+
+.question-box h2{
+
+    color:#333;
+}
+
+.question-box input{
+
+    width:90%;
+
+    height:45px;
+
+    font-size:22px;
+
+    margin-top:10px;
+
+    border-radius:10px;
+
+    border:2px solid #ccc;
+
+    padding-left:10px;
+}
+
+.submit{
+
+    width:100%;
+
+    height:50px;
+
+    margin-top:15px;
+
+    background:#52b788;
+
+    font-size:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="game-container">
+
+<h1>
+🐍 Snake Numerasi
+</h1>
+
+<div class="info">
+
+<div>
+⭐ <span id="score">0</span>
+</div>
+
+<div>
+❤️ <span id="life">5</span>
+
+<button id="muteBtn"
+onclick="toggleMusic()">
+
+🔊
+
+</button>
+
+</div>
+
+</div>
+
+<canvas
+id="game"
+width="380"
+height="380">
+</canvas>
+
+<!-- BOX SOAL -->
+
+<div class="question-box"
+id="questionBox">
+
+<h2 id="questionText"></h2>
+
+<input
+type="text"
+id="answer">
+
+<button
+class="submit"
+onclick="checkAnswer()">
+
+JAWAB
+
+</button>
+
+</div>
+
+<!-- CONTROL -->
+
+<div class="controls">
+
+<div>
+
+<button
+onclick="changeDirection('UP')">
+
+⬆
+
+</button>
+
+</div>
+
+<div>
+
+<button
+onclick="changeDirection('LEFT')">
+
+⬅
+
+</button>
+
+<button
+onclick="changeDirection('DOWN')">
+
+⬇
+
+</button>
+
+<button
+onclick="changeDirection('RIGHT')">
+
+➡
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- MUSIC -->
+
+<audio id="bgMusic" loop>
+
+<source
+src="/static/bgmusic.mp3"
+type="audio/mp3">
+
+</audio>
+
+<script>
+
+// =====================
+// CANVAS
+// =====================
+
+const canvas =
+document.getElementById("game");
+
+const ctx =
+canvas.getContext("2d");
+
+const box = 20;
+
+// =====================
+// MUSIC
+// =====================
+
+const bgMusic =
+document.getElementById("bgMusic");
+
+bgMusic.volume = 0.3;
+
+// =====================
+// GAMBAR
+// =====================
+
+const snakeHead =
+new Image();
+
+snakeHead.src =
+"/static/snake_head.png";
+
+const snakeBody =
+new Image();
+
+snakeBody.src =
+"/static/snake_body.png";
+
+const appleImg =
+new Image();
+
+appleImg.src =
+"/static/apple.png";
+
+// =====================
+// VARIABLE
+// =====================
+
+let score = 0;
+let life = 5;
+
+let direction = "";
+
+let gamePaused = false;
+
+let currentAnswer = "";
+
+// =====================
+// ULAR
+// =====================
+
+let snake = [
+
+{
+x:180,
+y:180
+}
+
+];
+
+// =====================
+// APEL
+// =====================
+
+let food = {
+
+x:100,
+y:100
+};
+
+// =====================
+// SOAL
+// =====================
+
+const soalList = [
+
+{
+soal:"12 + 8 = ?",
+jawaban:"20"
+},
+
+{
+soal:"5 × 6 = ?",
+jawaban:"30"
+},
+
+{
+soal:"2x = 20, x = ?",
+jawaban:"10"
+},
+
+{
+soal:"10² = ?",
+jawaban:"100"
+},
+
+{
+soal:"15 - 7 = ?",
+jawaban:"8"
+},
+
+{
+soal:"9 × 9 = ?",
+jawaban:"81"
+},
+
+{
+soal:"50 ÷ 5 = ?",
+jawaban:"10"
+},
+
+{
+soal:"Berapa sisi segitiga?",
+jawaban:"3"
+},
+
+{
+soal:"1 lusin = ?",
+jawaban:"12"
+},
+
+{
+soal:"log 100 = ?",
+jawaban:"2"
+},
+
+{
+soal:"3² = ?",
+jawaban:"9"
+},
+
+{
+soal:"2 + 2 × 5 = ?",
+jawaban:"12"
+}
+
+];
+
+// =====================
+// CONTROL
+// =====================
+
+let musicStarted = false;
+
+function changeDirection(dir){
+
+// MUSIC SEKALI AJA
+if(!musicStarted){
+
+bgMusic.play();
+
+musicStarted = true;
+}
+// GERAK SATU LANGKAH
+
+if(dir=="LEFT"){
+snake[0].x -= box;
+}
+
+if(dir=="RIGHT"){
+snake[0].x += box;
+}
+
+if(dir=="UP"){
+snake[0].y -= box;
+}
+
+if(dir=="DOWN"){
+snake[0].y += box;
+}
+
+// TAMBAH BODY KE BELAKANG
+for(let i = snake.length - 1; i > 0; i--){
+
+snake[i].x = snake[i - 1].x;
+snake[i].y = snake[i - 1].y;
+}
+// CEK APEL
+
+if(
+
+Math.abs(snake[0].x - food.x) < 20 &&
+
+Math.abs(snake[0].y - food.y) < 20
+
+){
+
+showQuestion();
+}
+}
+// =====================
+// DRAW GAME
+// =====================
+
+function draw(){
+
+ctx.clearRect(0,0,380,380);
+
+// =====================
+// APEL
+// =====================
+
+ctx.drawImage(
+
+appleImg,
+
+food.x,
+food.y,
+
+45,
+45
+);
+
+// =====================
+// ULAR
+// =====================
+
+for(let i=0;i<snake.length;i++){
+
+if(i==0){
+
+ctx.drawImage(
+
+snakeHead,
+
+snake[i].x,
+snake[i].y,
+
+45,
+45
+);
+
+}else{
+
+ctx.drawImage(
+
+snakeBody,
+
+snake[i].x,
+snake[i].y,
+
+40,
+40
+);
+}
+}
+
+if(gamePaused){
+return;
+}
+
+// =====================
+// TABRAK DINDING
+// =====================
+
+if(
+
+snake[0].x < 0 ||
+snake[0].y < 0 ||
+
+snake[0].x > 360 ||
+snake[0].y > 360
+
+){
+
+snake = [
+
+{
+x:180,
+y:180
+}
+
+];
+
+direction = "";
+}
+}
+
+// =====================
+// TAMPILKAN SOAL
+// =====================
+
+function showQuestion(){
+
+gamePaused = true;
+
+let randomSoal =
+
+soalList[
+Math.floor(
+Math.random()*soalList.length
+)
+];
+
+document
+.getElementById("questionText")
+.innerHTML =
+randomSoal.soal;
+
+currentAnswer =
+randomSoal.jawaban;
+
+document
+.getElementById("questionBox")
+.style.display =
+"block";
+}
+
+// =====================
+// CEK JAWABAN
+// =====================
+
+function checkAnswer(){
+
+let answer =
+
+document
+.getElementById("answer")
+.value;
+
+if(answer == currentAnswer){
+
+score++;
+fetch('/add-coin');
+
+snake.push({
+
+x:snake[snake.length - 1].x,
+y:snake[snake.length - 1].y
+
+});
+
+document
+.getElementById("score")
+.innerHTML = score;
+
+// APEL BARU
+
+food = {
+
+x:
+Math.floor(Math.random()*15)
+* box,
+
+y:
+Math.floor(Math.random()*15)
+* box
+};
+
+}else{
+
+life--;
+
+document
+.getElementById("life")
+.innerHTML = life;
+
+if(life == 0){
+
+alert("Game Over 😭");
+
+location.reload();
+}
+}
+
+document
+.getElementById("questionBox")
+.style.display =
+"none";
+
+document
+.getElementById("answer")
+.value = "";
+
+gamePaused = false;
+}
+
+// =====================
+// MUTE MUSIC
+// =====================
+
+function toggleMusic(){
+
+let btn =
+document.getElementById("muteBtn");
+
+if(bgMusic.muted){
+
+bgMusic.muted = false;
+
+btn.innerHTML = "🔊";
+
+}else{
+
+bgMusic.muted = true;
+
+btn.innerHTML = "🔇";
+}
+}
+// =====================
+// LOOP
+// =====================
+
+setInterval(draw,50);
+</script>
+
+</body>
+</html>

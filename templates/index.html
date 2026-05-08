@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>Math Worm Adventure</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="welcome-container">
+
+    <h1>🐍NumeraSaga</h1>
+
+    <p class="subtitle">
+        Platform Edukasi Matematika Interaktif
+    </p>
+
+    <div class="role-box">
+
+        <h2>Pilih User</h2>
+
+        <div class="buttons">
+
+            <!-- SISWA -->
+            <a href="/siswa">
+                <button class="siswa-btn">
+                    👩‍🎓 Siswa
+                </button>
+            </a>
+            <!-- GURU -->
+            <a href="/login-guru">
+    <button class="guru-btn">
+        👩‍🏫 Guru
+    </button>
+</a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

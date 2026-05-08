@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard Guru</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <h1>👩‍🏫 Dashboard Guru</h1>
+
+    <p class="subtitle">
+        Selamat datang di ruang pengajar NumeraSaga ✨
+    </p>
+
+    <div class="menu-grid">
+
+        <!-- MODUL AJAR -->
+        <div class="menu-card">
+
+            <h2>📚 Modul Ajar</h2>
+
+            <p>
+                Akses dan bagikan modul pembelajaran
+            </p>
+
+            <a href="/modul">
+
+                <button>
+                    Masuk
+                </button>
+
+            </a>
+
+        </div>
+
+        <!-- BANK SOAL -->
+        <div class="menu-card">
+
+            <h2>📝 Bank Soal</h2>
+
+            <p>
+                Kumpulan soal latihan dan evaluasi
+            </p>
+
+            <a href="/bank-soal">
+
+                <button>
+                    Masuk
+                </button>
+
+            </a>
+
+        </div>
+
+        <!-- RUANG BERBAGI -->
+        <div class="menu-card">
+
+            <h2>💬 Ruang Berbagi</h2>
+
+            <p>
+                Cerita, motivasi, dan pengalaman guru
+            </p>
+
+            <a href="/ruang-berbagi">
+
+                <button>
+                    Masuk
+                </button>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

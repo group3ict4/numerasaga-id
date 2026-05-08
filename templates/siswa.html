@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard Siswa</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <h1>👩‍🎓 Dashboard Siswa</h1>
+    <h3 style="color:white;">
+
+🪙 Koin :
+{{ coins }}
+
+</h3>
+
+    <p class="subtitle">
+        Selamat datang di platform edukasi matematika
+    </p>
+
+    <div class="menu-grid">
+
+        <!-- GAME -->
+<div class="menu-card">
+
+    <h2>🐍 Game Edukasi</h2>
+
+    <p>
+        Bermain sambil belajar matematika
+    </p>
+
+    <button
+    onclick="window.location.href='/snake-game'">
+
+        Masuk
+
+    </button>
+
+</div>
+
+        <!-- MATERI -->
+        <div class="menu-card">
+            <h2>📚 Materi</h2>
+
+            <p>
+                Pelajari materi matematika SMA
+            </p>
+
+            <button
+onclick="window.location.href='/materi'">
+
+Masuk
+
+</button>
+        </div>
+
+        <!-- LATSOL -->
+        <div class="menu-card">
+            <h2>📝 Latihan Soal</h2>
+
+            <p>
+                Kerjakan latihan soal interaktif
+            </p>
+
+            <a href="/latsol">
+                <button>Masuk</button>
+            </a>
+        </div>
+
+        <!-- CURHAT -->
+<div class="menu-card">
+
+<h2>💬 Ruang Teduh</h2>
+
+<p>
+Curhat & cerita bersama mentor
+</p>
+
+<p style="font-size:14px; color:#080808; line-height:1.6;">
+
+🤍 Menjunjung asas
+bimbingan dan konseling:
+rahasia, nyaman, dan suportif.
+
+</p>
+
+<button
+onclick="window.location.href='/ruang-curhat'">
+
+Masuk
+
+</button>
+
+</div>
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>Login Guru</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="form-container">
+
+    <h1>👩‍🏫 Login Guru</h1>
+
+    <!-- LOGIN → DASHBOARD GURU -->
+    <form action="/guru">
+
+        <input
+        type="text"
+        placeholder="Username"
+        required>
+
+        <input
+        type="password"
+        placeholder="Password"
+        required>
+
+        <button type="submit">
+            Login
+        </button>
+
+    </form>
+
+    <p>
+
+        Belum punya akun?
+
+        <a href="/register-guru">
+            Daftar Sekarang
+        </a>
+
+    </p>
+
+    <a href="/">
+        <button class="back-btn">
+            ⬅ Kembali
+        </button>
+    </a>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>Bank Soal</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f4f6fb;
+            margin:0;
+            padding:30px;
+        }
+
+        h1{
+            text-align:center;
+            color:#6C63FF;
+        }
+
+        .pdf-container{
+            margin-top:30px;
+            background:white;
+            padding:20px;
+            border-radius:20px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        iframe{
+            width:100%;
+            height:700px;
+            border:none;
+            border-radius:10px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+<a href="/guru" class="back-btn">
+⬅ Kembali ke Dashboard
+</a>
+
+<h1>📝 Bank Soal</h1>
+
+<div class="pdf-container">
+
+    <iframe
+    src="{{ url_for('static',
+    filename='pdf/bank_soal_fluida.pdf') }}">
+    </iframe>
+
+</div>
+
+</body>
+</html>

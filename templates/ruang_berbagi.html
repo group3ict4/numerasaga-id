@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Ruang Berbagi</title>
+
+<style>
+
+body{
+    font-family:Arial;
+    background:#f4f6fb;
+    padding:30px;
+}
+
+h1{
+    text-align:center;
+    color:#6C63FF;
+}
+
+.post-box{
+    background:white;
+    padding:20px;
+    border-radius:20px;
+    margin-bottom:30px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+textarea{
+    width:100%;
+    height:100px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    padding:10px;
+    font-size:16px;
+}
+
+button{
+    margin-top:10px;
+    padding:10px 20px;
+    border:none;
+    background:#6C63FF;
+    color:white;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.post{
+    background:white;
+    padding:20px;
+    border-radius:20px;
+    margin-top:20px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.name{
+    font-weight:bold;
+    color:#6C63FF;
+}
+
+.action{
+    margin-top:10px;
+    color:gray;
+}
+
+</style>
+
+</head>
+
+<body>
+    <a href="/guru" class="back-btn">
+⬅ Kembali ke Dashboard
+</a>
+
+<h1>💬 Ruang Berbagi Guru</h1>
+
+<div class="post-box">
+
+<form method="POST">
+
+<input
+type="text"
+name="nama"
+placeholder="Nama Guru"
+required>
+
+<br><br>
+
+<textarea
+name="postingan"
+placeholder="Bagikan cerita atau pengalaman mengajar..."
+required>
+</textarea>
+
+<button type="submit">
+Posting
+</button>
+
+</form>
+</div>
+
+<!-- POSTINGAN -->
+
+{% for post in posts %}
+
+<div class="post">
+
+<p class="name">
+Your Teacher ✨
+</p>
+
+<p>
+<p class="name">
+👩‍🏫 {{ post.nama }}
+</p>
+
+<p>
+{{ post.isi }}
+</p>
+
+<div class="action">
+
+<a href="/like/{{ loop.index0 }}">
+
+<button>
+❤️ {{ post.like }} Like
+</button>
+
+</a>
+
+</div>
+
+<br>
+
+<form
+action="/komentar/{{ loop.index0 }}"
+method="POST">
+
+<input
+type="text"
+name="komentar"
+placeholder="Tulis komentar..."
+required>
+
+<button type="submit">
+💬 Kirim
+</button>
+
+</form>
+
+<!-- TAMPILKAN KOMENTAR -->
+
+{% for komen in post.komentar %}
+
+<p>
+💬 {{ komen }}
+</p>
+
+{% endfor %}
+
+</div>
+
+{% endfor %}
+
+</body>
+</html>
